@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 
 if (process.env.NODE_ENV === "prod") {
   dotenv.config({ path: ".env.prod" });
@@ -13,6 +14,7 @@ import passport from "./strategies/auth.mjs";
 import routes from "./routes/index.mjs";
 import { connectDB } from "./db/postgresConnection.mjs";
 import { generalLimiter } from "./middleware/rateLimit.mjs";
+import specs from "./swaggerConfig.js";
 
 const initializeDatabase = async () => {
   try {
@@ -38,21 +40,8 @@ const startServer = async () => {
 
   app.use(passport.initialize());
 
-  app.get("/api/v1/health", (req, res) => {
-    try {
-      res.status(200).json({
-        status: "success",
-        message: "Server is healthy",
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: `Internal Server Error, ${error}`,
-      });
-    }
-  });
-
   app.use("/api/v1", generalLimiter, routes);
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

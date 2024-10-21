@@ -162,4 +162,13 @@ export const studentValidationSchema = {
       toInt: true,
     },
   }),
+
+  getStudentById: checkSchema({
+    studentId: {
+      in: ["params"],
+      isInt: {
+        errorMessage: "Student ID must be an integer",
+      },
+    },
+  }),
 };

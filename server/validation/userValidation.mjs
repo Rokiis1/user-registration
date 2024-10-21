@@ -115,7 +115,7 @@ export const userValidationSchema = {
     userId: {
       in: ["params"],
       isInt: {
-        errorMessage: "Student ID must be an integer",
+        errorMessage: "User ID must be an integer",
       },
     },
   }),
