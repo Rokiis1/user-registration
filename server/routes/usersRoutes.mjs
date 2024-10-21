@@ -108,7 +108,7 @@ router.get(
 router.get(
   "/search",
   validate(userValidationSchema.searchUserByName),
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   isStudent,
   usersController.getUserByName,
 );
@@ -487,8 +487,6 @@ router.post(
   "/:userId/students",
   validate(studentValidationSchema.createStudent),
   validate(userValidationSchema.getUserById),
-  passport.authenticate("local", { session: false }),
-  isStudent,
   passport.authenticate("jwt", { session: false }),
   isStudent,
   studentsController.createStudent,
@@ -607,7 +605,7 @@ router.post(
 router.get(
   "/:userId/students/:studentId",
   validate(studentValidationSchema.getStudentById),
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   isStudent,
   studentsController.getStudentById,
 );
@@ -718,7 +716,7 @@ router.get(
 router.put(
   "/:userId/students/:studentId",
   validate(studentValidationSchema.updateStudent),
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   isStudent,
   studentsController.updateStudent,
 );
@@ -836,7 +834,7 @@ router.put(
 router.patch(
   "/:userId/students/:studentId",
   validate(studentValidationSchema.partiallyUpdateStudent),
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   isStudent,
   studentsController.partiallyUpdateStudent,
 );
